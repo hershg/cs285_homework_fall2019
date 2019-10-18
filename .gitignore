@@ -1,5 +1,6 @@
 submission/*
 .DS_Store
 .ipynb_checkpoints
-cs285/data/
-
+*cs285/data/*
+__pycache__
+hw2/cs285/data/

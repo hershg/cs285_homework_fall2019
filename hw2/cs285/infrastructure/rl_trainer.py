@@ -151,17 +151,17 @@ class RL_Trainer(object):
             train_video_paths: paths which also contain videos for visualization purposes
         """
 
-        # decide whether to load training data or use
-        # HINT: depending on if it's the first iteration or not,
-            # decide whether to either
-                # load the data. In this case you can directly return as follows
-                # ``` return loaded_paths, 0, None ```
+        # # decide whether to load training data or use
+        # # HINT: depending on if it's the first iteration or not,
+        #     # decide whether to either
+        #         # load the data. In this case you can directly return as follows
+        #         # ``` return loaded_paths, 0, None ```
 
-                # collect data, batch_size is the number of transitions you want to collect.
-        if (itr == 0):
-            with open(load_initial_expertdata, 'rb') as f:
-                loaded_paths = pickle.load(f)
-            return loaded_paths, 0, None
+        #         # collect data, batch_size is the number of transitions you want to collect.
+        # if itr == 0:
+        #     if load_initial_expertdata is not None:
+        #         paths = pickle.load(open(self.params['expert_data'], 'rb'))
+        #         return paths, 0, None
 
         # collect data to be used for training
         # HINT1: use sample_trajectories from utils
