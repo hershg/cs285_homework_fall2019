@@ -49,13 +49,13 @@ class BootstrappedContinuousCritic(BaseCritic):
             size=self.size))
         self.sy_target_n = tf.placeholder(shape=[None], name="critic_target", dtype=tf.float32)
 
-        # TODO: set up the critic loss
+        # set up the critic loss
         # HINT1: the critic_prediction should regress onto the targets placeholder (sy_target_n)
         # HINT2: use tf.losses.mean_squared_error
-        self.critic_loss = TODO
+        self.critic_loss = tf.losses.mean_squared_error(self.critic_prediction, self.sy_target_n)
 
-        # TODO: use the AdamOptimizer to optimize the loss defined above
-        self.critic_update_op = TODO
+        # use the AdamOptimizer to optimize the loss defined above
+        self.critic_update_op = tf.train.AdamOptimizer(self.learning_rate).minimize(self.critic_loss)
 
     def define_placeholders(self):
         """
@@ -77,9 +77,9 @@ class BootstrappedContinuousCritic(BaseCritic):
         return sy_ob_no, sy_ac_na, sy_adv_n
 
     def forward(self, ob):
-        # TODO: run your critic
+        # run your critic
         # HINT: there's a neural network structure defined above with mlp layers, which serves as your 'critic'
-        return TODO
+        return self.sess.run(self.critic_prediction, feed_dict={self.sy_ob_no: ob})
 
     def update(self, ob_no, next_ob_no, re_n, terminal_n):
         """
@@ -94,13 +94,13 @@ class BootstrappedContinuousCritic(BaseCritic):
                 re_n: length: sum_of_path_lengths. Each element in re_n is a scalar containing
                     the reward for each timestep
                 terminal_n: length: sum_of_path_lengths. Each element in terminal_n is either 1 if the episode ended
-                    at that timestep of 0 if the episode did not end
+                    at that timestep or 0 if the episode did not end
 
             returns:
                 loss
         """
 
-        # TODO: Implement the pseudocode below: 
+        # Implement the pseudocode below: 
 
         # do the following (self.num_grad_steps_per_target_update * self.num_target_updates) times:
             # every self.num_grad_steps_per_target_update steps (which includes the first step),
@@ -117,6 +117,9 @@ class BootstrappedContinuousCritic(BaseCritic):
                     #a) sy_ob_no with ob_no
                     #b) sy_target_n with target values calculated above
         
-        TODO
+        for i in range(self.num_grad_steps_per_target_update * self.num_target_updates):
+            if i % self.num_grad_steps_per_target_update == 0:
+                target_vals = re_n + self.gamma * self.forward(next_ob_no) * (1-terminal_n)
+            _, loss = self.sess.run([self.critic_update_op, self.critic_loss], feed_dict={self.sy_ob_no: ob_no, self.sy_target_n: target_vals})
 
         return loss
