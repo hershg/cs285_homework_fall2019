@@ -3,4 +3,7 @@ submission/*
 .ipynb_checkpoints
 *cs285/data/*
 __pycache__
+hw1/cs285/data/
 hw2/cs285/data/
+hw3/cs285/data/
+hw4/cs285/data/
