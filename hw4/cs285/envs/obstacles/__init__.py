@@ -6,3 +6,5 @@ register(
     max_episode_steps=500,
 )
 from cs285.envs.obstacles.obstacles_env import Obstacles
+import matplotlib  
+matplotlib.use('TkAgg')

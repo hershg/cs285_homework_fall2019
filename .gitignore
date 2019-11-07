@@ -1,9 +1,9 @@
 submission/*
-.DS_Store
-.ipynb_checkpoints
-*cs285/data/*
+*.DS_Store
+*.ipynb_checkpoints
 __pycache__
 hw1/cs285/data/
 hw2/cs285/data/
 hw3/cs285/data/
 hw4/cs285/data/
+*.pyc
